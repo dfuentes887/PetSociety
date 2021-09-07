@@ -1,0 +1,143 @@
+{% extends 'app/base.html' %}
+{% block contenido %}
+{% load static %}
+{% load humanize %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Ashion Template">
+    <meta name="keywords" content="Ashion, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ashion | Template</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+
+    <!-- Css Styles -->
+
+
+
+    <link rel="stylesheet" href="{% static 'css/slicknav.min.css' %}" >
+    <link rel="stylesheet" href="{% static 'css/style2.css' %}" >
+</head>
+
+<body>
+
+
+   
+    
+
+
+    <section class="product-details spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="product__details__pic">
+                        <img src="{{object.img.url}}" alt="">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="product__details__text">
+                        <h3>{{object.nombre}} </h3>
+                        <div class="rating">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            
+                        </div>
+                        {% if object.descuento == null %}
+                        <div class="product__details__price">$ {{object.precio |intcomma}} </div>
+                        {% else %}
+                        <div style="color: forestgreen;" class="product__details__price">$ {{ object.calculo_descto | floatformat:0 |intcomma }} <span>$ {{object.precio|intcomma}}</span></div>
+                        {% endif %}
+                     
+                        <div class="product__details__button">
+                            {% if object.stock > 0 %}
+                            <a style="background-color: forestgreen;" href="{{object.agregar_carrito}}" class="cart-btn"><span class="icon_bag_alt"></span> Añadir al carrito</a>
+                            {% else %}
+                            <a style="background-color: red; color: white;"  class="cart-btn"><span class="icon_bag_alt"></span> Producto sin Stock</a>
+                            {% endif %}
+                        </div>
+                        <div class="product__details__widget">
+                            <ul>
+                                <li>
+                                    <span>Disponibilidad:</span>
+                                    <div class="stock__checkbox">
+                                       {% if object.stock > 0 %}
+                                       <label for="stockin">
+                                        En Stock ({{object.stock}})
+                                        
+                                        <span class="checkmark"></span>
+                                    </label>
+
+                                    {% else %}
+
+                                    <label for="stockin">
+                                        <span style="background-color: red; padding: 5px; padding-left: 20px; border-radius: 5px; color: white;">AGOTADO</span>
+                                        
+                                        <span class="checkmark"></span>
+                                    </label>
+                                       {% endif %}
+                                    </div>
+                                </li>
+                                
+                               
+                                <li>
+                                    <span>Promociones:</span>
+                                    <p>{% if object.descuento == null %}
+                                        Ninguno.
+
+                                        {% else%}
+                                        {{object.descuento}}% de Descuento.
+
+                                        {% endif %}
+                                    </p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="product__details__tab">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">Descripción</a>
+                            </li>
+                           
+                            
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                                <h6>Descripción</h6>
+                                {{object.descripcion}}
+                            </div>
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+    </section>
+    <!-- Product Details Section End -->
+
+
+    <!-- Search Begin -->
+    <div class="search-model">
+        <div class="h-100 d-flex align-items-center justify-content-center">
+            <div class="search-close-switch">+</div>
+            <form class="search-model-form">
+                <input type="text" id="search-input" placeholder="Search here.....">
+            </form>
+        </div>
+    </div>
+
+</body>
+
+</html>
+
+{%  endblock %}

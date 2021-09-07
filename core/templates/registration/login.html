@@ -1,0 +1,32 @@
+{% extends 'app/base.html' %}
+{% load crispy_forms_tags %}
+{% block contenido %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-6 offset-md-3">
+    <form action="" method="POST">
+        {% csrf_token %}
+        <style>
+            label{
+                display: none;
+            }
+        </style>
+        
+        <br>
+        <div style="text-align: center;"><i style="font-size: 150px;color:#428713;" class="far fa-user"></i></div>
+        <br>
+
+        <h3 style="color:#428713;">Usuario </h3>
+        {{form.username | as_crispy_field}}
+        <h3 style="color:#428713;">Contraseña</h3>
+        {{form.password | as_crispy_field}}
+        
+        <input type="submit" value="Iniciar sesión" class="btn btn-success  float-right ">   
+        <a href="{% url 'core:registroCliente' %}"><input type="button" value="Registrate!" class="btn btn-outline-info btn-large">  </a>
+    </form>
+        </div>
+</div>
+</div>
+
+{% endblock %}

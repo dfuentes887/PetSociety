@@ -1,0 +1,81 @@
+{% extends 'app/base.html' %}
+{% block contenido %}
+{% load humanize %}
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/listado.css' %}" >
+<main>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 search">
+            <br>
+          <form action="" method="GET" style="display:ruby;">
+            <div id="custom-search-input" > 
+                <div class="input-group col-md-12">
+                  <input type="text" class="form-control" placeholder="Buscar..." name="buscador">
+                  <span class="input-group-list">
+                    <button type="submit" class="btn btn-outline-danger btn-block"><span style="visibility: hidden;">AAAA</span><i class="fas fa-search"></i><span style="visibility: hidden;">AAAA</span></button>
+                  </span>
+                </div>
+            </div>
+            </form>
+        </div>
+      </div>
+    </div>
+
+    <br><br><br>
+
+    <div class="container">
+        <div class="row">
+            {% for p in productos %}
+       
+                    {% if p.descuento == null %}
+                         <!-- SI NO TIENE DESCUENTO... -->
+                    <div class="col-md-3 col-sm-6">
+                        <div class="product-grid">
+                            <div class="product-image">
+                                <a href="#" class="image">
+                                    <img class="pic-1" src="{{p.img.url}}">
+                                </a>
+                                <div class="price fixed"> ${{p.precio|intcomma}} </div>
+                                <a href="{% url 'core:verProducto' p.slug %}" class="add-to-cart"> Ver Producto </a>
+                            </div>
+                            <div class="product-content">
+                                <h3 class="title"><a href="{% url 'core:verProducto' p.slug %}">{{p.nombre | title}}</a></h3>
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+
+                    
+                    {% else %} 
+
+                    <!-- SI TIENE DESCUENTO... -->
+                    <div class="col-md-3 col-sm-6">
+                        <div class="product-grid">
+                            <div class="product-image">
+                                <a href="#" class="image">
+                                    <img class="pic-1" src="{{p.img.url}}">
+                                </a>
+                                    <span class="product-sale-label">{{p.descuento}}% DCTO</span>
+                                        <div class="price" style="background-color: green;"> 
+                                            $<del>{{ p.precio |intcomma}}</del>   <b>${{ p.calculo_descto | floatformat:0 |intcomma }}</b>
+                                        </div>    
+                                <a href="{% url 'core:verProducto' p.slug %}" class="add-to-cart"> Ver producto </a>
+                            </div>
+                            <div class="product-content">
+                                <h3 class="title"><a href="{% url 'core:verProducto' p.slug %}">{{p.nombre | title}}</a></h3>
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                    {% endif %}
+            {% endfor %}
+
+            {% for i in productos %}
+                   <img src=" " alt="">
+            {% endfor %}
+        </div>
+    </div>
+  </main>
+{% endblock %}

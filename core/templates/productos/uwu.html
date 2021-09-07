@@ -1,0 +1,24 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block contenido %}
+{% load humanize %}
+
+<link rel="stylesheet" href="{% static 'css/style2.css' %}">
+<main>
+    <center style="text-align: center;">
+        <i style="color: #428713; font-size: 300px;  text-align: center;" class="fas fa-check"></i>
+      </center>
+            <p style="text-align: center; font-size: 30px;"  >Tu pago ha sido realizado correctamente</p>
+
+
+
+            <div class="cart__total__procced" style="background-color: white;">
+                <ul>
+                    <a href="{% url 'core:Index' %}"  class="primary-btn" style="background-color: #428713;" >Volver a inicio</a>   
+                </ul> 
+            </div>
+
+   
+
+  </main>
+{% endblock %}

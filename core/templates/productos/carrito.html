@@ -1,0 +1,177 @@
+{% extends 'app/base.html' %}
+{% block contenido %}
+{% load static %}
+{% load humanize %}
+    <link rel="stylesheet" href="{% static 'css/slicknav.min.css' %}" >
+    <link rel="stylesheet" href="{% static 'css/style2.css' %}" >
+
+
+    <script>
+        function realizarCompra(){
+            Swal.fire({
+                "title":"Estás seguro de comprar?",
+                "text":"",
+                "icon":"question",
+                "showCancelButton":true,
+                "cancelButtonText":"No, cancelar.",
+                "confirmButtonText":"Sí , estoy seguro",
+                "confirmButtonColor": "forestgreen",
+    
+            })
+            .then(function(result){
+                if(result.isConfirmed){
+                    window.location.href = "/pago-realizado"
+                }
+    
+            })
+        }
+    </script>
+    
+    <section class="shop-cart spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="shop__cart__table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Producto</th>
+                                    <th>Precio</th>
+                                    <th>Cantidad</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+
+                                {% for o in object.items.all %}
+                                <tr>
+                                    <td class="cart__product__item">
+                                        <img src="{{o.item.img.url}}" width="100" alt="">
+                                        <div class="cart__product__item__title">
+                                            <h6> 
+                                                {% if o.item.descuento == null %}
+                                                {{ o.item.nombre | title }}
+                                                {% else %}
+                                                {{ o.item.nombre | title }} (<span style="color: #ca1515;">{{o.item.descuento}}% de descuento</span>)
+                                                {% endif %}
+
+
+                                            </h6>
+                                            <div class="rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="cart__price">
+                                        {% if o.item.descuento == null %}
+                                        <span style="font-size: 20px">$ {{o.item.precio | floatformat:0  |intcomma}}</span>
+                                        {% else %}
+                                        
+                                        <span style="font-size:20px">${{o.item.calculo_descto | floatformat:0  | intcomma}}</span> <del style="font-size: 13px; color: dimgray;" > $ {{o.item.precio | floatformat:0  |intcomma}}</del>    
+                                        {% endif %}
+
+                                    </td>
+                                    <td class="cart__total" > 
+
+                                        <a href="{% url 'core:remover_1_item_carrito' o.item.slug %}"><i class="fas fa-minus mr-2"></i></a>
+                                       <span style="padding:20px;"> {{o.quantity}}</span>
+                                        
+                                        <a href="{% url 'core:agregar_1_item_carrito' o.item.slug %}"><i class="fas fa-plus mr-2"></i></a>
+
+                                    </td>
+                                    <td class="cart__total"> 
+
+                                        {% if o.item.descuento == null %}
+                                        ${{ o.precio_total_por_item  |floatformat:0 | intcomma }}
+                                        
+                                        {% else %}
+                                        
+                                        ${{ o.precio_total_por_item_descuento | floatformat:0 | intcomma}}
+
+                                        {% endif %}
+                                        
+
+                                    </td>
+                                    
+                                    <td class="cart__close"> <a href="{% url 'core:remover_del_carrito' o.item.slug %}"><span  class="borrar_item" style="background-color: red; color: white;"> <i style="color: white;" class="fas fa-trash"></i></span></a></td>
+                                </tr>
+
+                                {% empty %}
+                                <tr>
+                                    <td colspan='5' style="text-align: center;">Tu carrito está vacío</td>
+                                </tr>
+                                <tr>
+                                
+                                </tr>
+                                {% endfor %}
+
+
+
+                                
+                               
+                               
+                               
+
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="cart__btn">
+                        <a href="{% url 'core:listaProductosCliente' %}">Continuar comprando</a>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="cart__btn update__btn">
+                        <a href=""><span class="icon_loading"></span> Actualizar carrito</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="discount__content">
+                      
+                    </div>
+                </div>
+                {% if object.total_pago %}
+                <div class="col-lg-4 offset-lg-2">
+                    <div class="cart__total__procced">
+                        <h6>Total de la compra</h6>
+                        <ul>
+                      
+                            <li>Total <span>
+
+                                $ {{ object.total_pago | floatformat:0 | intcomma}} 
+
+
+
+
+
+                            </span></li>
+               
+                            <a href="#" onclick="realizarCompra()"  class="primary-btn" style="background-color: #428713;" >Proceder al pago</a>
+                                
+ 
+                        </ul>
+                        
+                    </div>
+                </div>
+                {% endif %}
+                            
+            </div>
+        </div>
+    </section>
+
+    
+
+{% endblock %}
